@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.javaforever.myareas.dao.StadiumPictureDao"> 
+	<resultMap id="stadiumPicture" type="org.javaforever.myareas.domain.StadiumPicture">
+		<id column="stadium_picture_id" property="stadiumPictureId"/>
+		<result column="stadium_picture_name" property="stadiumPictureName"/>
+		<result column="active" property="active"/>
+		<result column="stadium_id" property="stadiumId"/>
+		<result column="picture" property="picture"/>
+	</resultMap>
+	
+	<update id="activateStadiumPicture" parameterType="Long">
+		update std_stadium_pictures set active = true where stadium_picture_id = #{value} 
+	</update>
+
+	<insert id="addStadiumPicture" parameterType="org.javaforever.myareas.domain.StadiumPicture">
+		insert into std_stadium_pictures ( stadium_picture_name,active,stadium_id,picture) values (#{stadiumPictureName},#{active},#{stadiumId},#{picture})
+	</insert>
+
+	<select id="countActiveStadiumPictureRecords" resultType="Integer">
+		select count(*) as countNum from std_stadium_pictures where active = true;
+	</select>
+
+	<select id="countSearchStadiumPicturesByFieldsRecords" parameterType="org.javaforever.myareas.domain.StadiumPicture" resultType="int">
+		select count(*) countSum from std_stadium_pictures
+		where 1=1 
+		<if test="stadiumPictureName!=null and stadiumPictureName!='' ">
+			and stadium_picture_name LIKE CONCAT(CONCAT('%', #{stadiumPictureName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="stadiumId!=null">
+			and stadium_id = #{stadiumId}
+		</if>
+		<if test="picture!=null and picture!='' ">
+			and picture LIKE CONCAT(CONCAT('%', #{picture}),'%')
+		</if>
+	</select>
+
+	<delete id="deleteStadiumPicture" parameterType="Long">
+		delete from std_stadium_pictures where stadium_picture_id = #{stadiumPictureId}
+	</delete>
+
+	<select id="findStadiumPictureByStadiumPictureId" parameterType="Long" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures where stadium_picture_id = #{stadiumPictureId}
+	</select>
+
+	<select id="findStadiumPictureByStadiumPictureName" parameterType="string" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures where stadium_picture_name = #{stadiumPictureName}
+	</select>
+
+	<select id="findStadiumPictureFullInfoByStadiumPictureId" parameterType="Long" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures where stadium_picture_id = #{stadiumPictureId}
+	</select>
+
+	<select id="listActiveStadiumPictures" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures where active = true order by stadium_picture_name asc
+	</select>
+
+	<select id="listAllStadiumPictures" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures
+	</select>
+
+	<select id="searchStadiumPictureIndexedNamesByShortName" resultMap="stadiumPicture" parameterType="string">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures where stadium_picture_name like CONCAT(#{value},'%')
+	</select>
+
+	<select id="searchStadiumPicturesByFields" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures
+		where 1=1 
+		<if test="stadiumPictureName!=null and stadiumPictureName!='' ">
+			and stadium_picture_name LIKE CONCAT(CONCAT('%', #{stadiumPictureName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="stadiumId!=null">
+			and stadium_id = #{stadiumId}
+		</if>
+		<if test="picture!=null and picture!='' ">
+			and picture LIKE CONCAT(CONCAT('%', #{picture}),'%')
+		</if>
+	</select>
+
+	<select id="searchStadiumPicturesByFieldsByLimit" resultMap="stadiumPicture">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures
+		where 1=1 
+		<if test="stadiumPicture.stadiumPictureName!=null and stadiumPicture.stadiumPictureName!='' ">
+			and stadium_picture_name LIKE CONCAT(CONCAT('%', #{stadiumPicture.stadiumPictureName}),'%')
+		</if>
+		<if test="stadiumPicture.active!=null">
+			and active = #{stadiumPicture.active}
+		</if>
+		<if test="stadiumPicture.stadiumId!=null">
+			and stadium_id = #{stadiumPicture.stadiumId}
+		</if>
+		<if test="stadiumPicture.picture!=null and stadiumPicture.picture!='' ">
+			and picture LIKE CONCAT(CONCAT('%', #{stadiumPicture.picture}),'%')
+		</if>
+		limit #{limit} offset #{start}
+	</select>
+
+	<select id="searchStadiumPicturesByStadiumPictureName" resultMap="stadiumPicture" parameterType="string">
+		select stadium_picture_id,stadium_picture_name,active,stadium_id,picture from std_stadium_pictures where stadium_picture_name like CONCAT(CONCAT('%',#{value}),'%')
+	</select>
+
+	<update id="softDeleteStadiumPicture" parameterType="Long">
+		update std_stadium_pictures set active = false where stadium_picture_id = #{value} 
+	</update>
+
+	<update id="toggleStadiumPicture" parameterType="Long">
+		update std_stadium_pictures set active = not active where stadium_picture_id = #{value} 
+	</update>
+
+	<select id="updateStadiumPicture" parameterType="org.javaforever.myareas.domain.StadiumPicture">
+		update std_stadium_pictures set stadium_picture_name = #{stadiumPictureName} ,active = #{active} ,stadium_id = #{stadiumId} ,picture = #{picture} where stadium_picture_id = #{stadiumPictureId}
+	</select>
+
+</mapper>

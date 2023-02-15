@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.javaforever.myareas.dao.StadiumCommentDao"> 
+	<resultMap id="stadiumComment" type="org.javaforever.myareas.domain.StadiumComment">
+		<id column="stadium_comment_id" property="stadiumCommentId"/>
+		<result column="stadium_comment_name" property="stadiumCommentName"/>
+		<result column="active" property="active"/>
+		<result column="stadium_id" property="stadiumId"/>
+		<result column="user_id" property="userId"/>
+		<result column="create_time" property="createTime"/>
+		<result column="star" property="star"/>
+		<result column="comments" property="comments"/>
+	</resultMap>
+	
+	<update id="activateStadiumComment" parameterType="Long">
+		update std_stadium_comments set active = true where stadium_comment_id = #{value} 
+	</update>
+
+	<insert id="addStadiumComment" parameterType="org.javaforever.myareas.domain.StadiumComment">
+		insert into std_stadium_comments ( stadium_comment_name,active,stadium_id,user_id,create_time,star,comments) values (#{stadiumCommentName},#{active},#{stadiumId},#{userId},#{createTime},#{star},#{comments})
+	</insert>
+
+	<select id="countActiveStadiumCommentRecords" resultType="Integer">
+		select count(*) as countNum from std_stadium_comments where active = true;
+	</select>
+
+	<select id="countSearchStadiumCommentsByFieldsRecords" parameterType="org.javaforever.myareas.domain.StadiumComment" resultType="int">
+		select count(*) countSum from std_stadium_comments
+		where 1=1 
+		<if test="stadiumCommentName!=null and stadiumCommentName!='' ">
+			and stadium_comment_name LIKE CONCAT(CONCAT('%', #{stadiumCommentName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="stadiumId!=null">
+			and stadium_id = #{stadiumId}
+		</if>
+		<if test="userId!=null">
+			and user_id = #{userId}
+		</if>
+		<if test="createTime!=null and createTime!='' ">
+			and create_time LIKE CONCAT(CONCAT('%', #{createTime}),'%')
+		</if>
+		<if test="star!=null">
+			and star = #{star}
+		</if>
+		<if test="comments!=null and comments!='' ">
+			and comments LIKE CONCAT(CONCAT('%', #{comments}),'%')
+		</if>
+	</select>
+
+	<delete id="deleteStadiumComment" parameterType="Long">
+		delete from std_stadium_comments where stadium_comment_id = #{stadiumCommentId}
+	</delete>
+
+	<select id="findStadiumCommentByStadiumCommentId" parameterType="Long" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments where stadium_comment_id = #{stadiumCommentId}
+	</select>
+
+	<select id="findStadiumCommentByStadiumCommentName" parameterType="string" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments where stadium_comment_name = #{stadiumCommentName}
+	</select>
+
+	<select id="findStadiumCommentFullInfoByStadiumCommentId" parameterType="Long" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments where stadium_comment_id = #{stadiumCommentId}
+	</select>
+
+	<select id="listActiveStadiumComments" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments where active = true order by stadium_comment_name asc
+	</select>
+
+	<select id="listAllStadiumComments" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments
+	</select>
+
+	<select id="searchStadiumCommentIndexedNamesByShortName" resultMap="stadiumComment" parameterType="string">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments where stadium_comment_name like CONCAT(#{value},'%')
+	</select>
+
+	<select id="searchStadiumCommentsByFields" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments
+		where 1=1 
+		<if test="stadiumCommentName!=null and stadiumCommentName!='' ">
+			and stadium_comment_name LIKE CONCAT(CONCAT('%', #{stadiumCommentName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="stadiumId!=null">
+			and stadium_id = #{stadiumId}
+		</if>
+		<if test="userId!=null">
+			and user_id = #{userId}
+		</if>
+		<if test="createTime!=null and createTime!='' ">
+			and create_time LIKE CONCAT(CONCAT('%', #{createTime}),'%')
+		</if>
+		<if test="star!=null">
+			and star = #{star}
+		</if>
+		<if test="comments!=null and comments!='' ">
+			and comments LIKE CONCAT(CONCAT('%', #{comments}),'%')
+		</if>
+	</select>
+
+	<select id="searchStadiumCommentsByFieldsByLimit" resultMap="stadiumComment">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments
+		where 1=1 
+		<if test="stadiumComment.stadiumCommentName!=null and stadiumComment.stadiumCommentName!='' ">
+			and stadium_comment_name LIKE CONCAT(CONCAT('%', #{stadiumComment.stadiumCommentName}),'%')
+		</if>
+		<if test="stadiumComment.active!=null">
+			and active = #{stadiumComment.active}
+		</if>
+		<if test="stadiumComment.stadiumId!=null">
+			and stadium_id = #{stadiumComment.stadiumId}
+		</if>
+		<if test="stadiumComment.userId!=null">
+			and user_id = #{stadiumComment.userId}
+		</if>
+		<if test="stadiumComment.createTime!=null and stadiumComment.createTime!='' ">
+			and create_time LIKE CONCAT(CONCAT('%', #{stadiumComment.createTime}),'%')
+		</if>
+		<if test="stadiumComment.star!=null">
+			and star = #{stadiumComment.star}
+		</if>
+		<if test="stadiumComment.comments!=null and stadiumComment.comments!='' ">
+			and comments LIKE CONCAT(CONCAT('%', #{stadiumComment.comments}),'%')
+		</if>
+		limit #{limit} offset #{start}
+	</select>
+
+	<select id="searchStadiumCommentsByStadiumCommentName" resultMap="stadiumComment" parameterType="string">
+		select stadium_comment_id,stadium_comment_name,active,stadium_id,user_id,create_time,star,comments from std_stadium_comments where stadium_comment_name like CONCAT(CONCAT('%',#{value}),'%')
+	</select>
+
+	<update id="softDeleteStadiumComment" parameterType="Long">
+		update std_stadium_comments set active = false where stadium_comment_id = #{value} 
+	</update>
+
+	<update id="toggleStadiumComment" parameterType="Long">
+		update std_stadium_comments set active = not active where stadium_comment_id = #{value} 
+	</update>
+
+	<select id="updateStadiumComment" parameterType="org.javaforever.myareas.domain.StadiumComment">
+		update std_stadium_comments set stadium_comment_name = #{stadiumCommentName} ,active = #{active} ,stadium_id = #{stadiumId} ,user_id = #{userId} ,create_time = #{createTime} ,star = #{star} ,comments = #{comments} where stadium_comment_id = #{stadiumCommentId}
+	</select>
+
+</mapper>

@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.javaforever.myareas.dao.UserDao"> 
+	<resultMap id="user" type="org.javaforever.myareas.domain.User">
+		<id column="user_id" property="userId"/>
+		<result column="login_name" property="loginName"/>
+		<result column="active" property="active"/>
+		<result column="gender" property="gender"/>
+		<result column="mobile" property="mobile"/>
+		<result column="mobile_public" property="mobilePublic"/>
+		<result column="qq" property="qq"/>
+		<result column="weixin" property="weixin"/>
+		<result column="weibo" property="weibo"/>
+		<result column="nick_name" property="nickName"/>
+		<result column="real_name" property="realName"/>
+		<result column="user_type" property="userType"/>
+		<result column="user_password" property="userPassword"/>
+		<result column="start_date" property="startDate"/>
+		<result column="user_level" property="userLevel"/>
+		<result column="credit_level" property="creditLevel"/>
+		<result column="user_comment" property="userComment"/>
+		<result column="birthday" property="birthday"/>
+		<result column="normal_address" property="normalAddress"/>
+		<result column="user_description" property="userDescription"/>
+		<result column="fee_level" property="feeLevel"/>
+		<result column="token_id" property="tokenId"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="city_id" property="cityId"/>
+	</resultMap>
+	
+	<update id="activateUser" parameterType="Long">
+		update std_users set active = true where user_id = #{value} 
+	</update>
+
+	<insert id="addUser" parameterType="org.javaforever.myareas.domain.User">
+		insert into std_users ( login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id) values (#{loginName},#{active},#{gender},#{mobile},#{mobilePublic},#{qq},#{weixin},#{weibo},#{nickName},#{realName},#{userType},#{userPassword},#{startDate},#{userLevel},#{creditLevel},#{userComment},#{birthday},#{normalAddress},#{userDescription},#{feeLevel},#{tokenId},#{latitude},#{longitude},#{cityId})
+	</insert>
+
+	<select id="countActiveUserRecords" resultType="Integer">
+		select count(*) as countNum from std_users where active = true;
+	</select>
+
+	<select id="countSearchUsersByFieldsRecords" parameterType="org.javaforever.myareas.domain.User" resultType="int">
+		select count(*) countSum from std_users
+		where 1=1 
+		<if test="loginName!=null and loginName!='' ">
+			and login_name LIKE CONCAT(CONCAT('%', #{loginName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="gender!=null and gender!='' ">
+			and gender LIKE CONCAT(CONCAT('%', #{gender}),'%')
+		</if>
+		<if test="mobile!=null and mobile!='' ">
+			and mobile LIKE CONCAT(CONCAT('%', #{mobile}),'%')
+		</if>
+		<if test="mobilePublic!=null and mobilePublic!='' ">
+			and mobile_public LIKE CONCAT(CONCAT('%', #{mobilePublic}),'%')
+		</if>
+		<if test="qq!=null and qq!='' ">
+			and qq LIKE CONCAT(CONCAT('%', #{qq}),'%')
+		</if>
+		<if test="weixin!=null and weixin!='' ">
+			and weixin LIKE CONCAT(CONCAT('%', #{weixin}),'%')
+		</if>
+		<if test="weibo!=null and weibo!='' ">
+			and weibo LIKE CONCAT(CONCAT('%', #{weibo}),'%')
+		</if>
+		<if test="nickName!=null and nickName!='' ">
+			and nick_name LIKE CONCAT(CONCAT('%', #{nickName}),'%')
+		</if>
+		<if test="realName!=null and realName!='' ">
+			and real_name LIKE CONCAT(CONCAT('%', #{realName}),'%')
+		</if>
+		<if test="userType!=null">
+			and user_type = #{userType}
+		</if>
+		<if test="userPassword!=null and userPassword!='' ">
+			and user_password LIKE CONCAT(CONCAT('%', #{userPassword}),'%')
+		</if>
+		<if test="startDate!=null and startDate!='' ">
+			and start_date LIKE CONCAT(CONCAT('%', #{startDate}),'%')
+		</if>
+		<if test="userLevel!=null">
+			and user_level = #{userLevel}
+		</if>
+		<if test="creditLevel!=null">
+			and credit_level = #{creditLevel}
+		</if>
+		<if test="userComment!=null">
+			and user_comment = #{userComment}
+		</if>
+		<if test="birthday!=null and birthday!='' ">
+			and birthday LIKE CONCAT(CONCAT('%', #{birthday}),'%')
+		</if>
+		<if test="normalAddress!=null and normalAddress!='' ">
+			and normal_address LIKE CONCAT(CONCAT('%', #{normalAddress}),'%')
+		</if>
+		<if test="userDescription!=null and userDescription!='' ">
+			and user_description LIKE CONCAT(CONCAT('%', #{userDescription}),'%')
+		</if>
+		<if test="feeLevel!=null">
+			and fee_level = #{feeLevel}
+		</if>
+		<if test="tokenId!=null and tokenId!='' ">
+			and token_id LIKE CONCAT(CONCAT('%', #{tokenId}),'%')
+		</if>
+		<if test="latitude!=null">
+			and latitude = #{latitude}
+		</if>
+		<if test="longitude!=null">
+			and longitude = #{longitude}
+		</if>
+		<if test="cityId!=null">
+			and city_id = #{cityId}
+		</if>
+	</select>
+
+	<delete id="deleteUser" parameterType="Long">
+		delete from std_users where user_id = #{userId}
+	</delete>
+
+	<select id="findUserByLoginName" parameterType="string" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users where login_name = #{loginName}
+	</select>
+
+	<select id="findUserByUserId" parameterType="Long" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users where user_id = #{userId}
+	</select>
+
+	<select id="findUserFullInfoByUserId" parameterType="Long" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users where user_id = #{userId}
+	</select>
+
+	<select id="listActiveUsers" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users where active = true order by login_name asc
+	</select>
+
+	<select id="listAllUsers" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users
+	</select>
+
+	<select id="searchUserIndexedNamesByShortName" resultMap="user" parameterType="string">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users where login_name like CONCAT(#{value},'%')
+	</select>
+
+	<select id="searchUsersByFields" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users
+		where 1=1 
+		<if test="loginName!=null and loginName!='' ">
+			and login_name LIKE CONCAT(CONCAT('%', #{loginName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="gender!=null and gender!='' ">
+			and gender LIKE CONCAT(CONCAT('%', #{gender}),'%')
+		</if>
+		<if test="mobile!=null and mobile!='' ">
+			and mobile LIKE CONCAT(CONCAT('%', #{mobile}),'%')
+		</if>
+		<if test="mobilePublic!=null and mobilePublic!='' ">
+			and mobile_public LIKE CONCAT(CONCAT('%', #{mobilePublic}),'%')
+		</if>
+		<if test="qq!=null and qq!='' ">
+			and qq LIKE CONCAT(CONCAT('%', #{qq}),'%')
+		</if>
+		<if test="weixin!=null and weixin!='' ">
+			and weixin LIKE CONCAT(CONCAT('%', #{weixin}),'%')
+		</if>
+		<if test="weibo!=null and weibo!='' ">
+			and weibo LIKE CONCAT(CONCAT('%', #{weibo}),'%')
+		</if>
+		<if test="nickName!=null and nickName!='' ">
+			and nick_name LIKE CONCAT(CONCAT('%', #{nickName}),'%')
+		</if>
+		<if test="realName!=null and realName!='' ">
+			and real_name LIKE CONCAT(CONCAT('%', #{realName}),'%')
+		</if>
+		<if test="userType!=null">
+			and user_type = #{userType}
+		</if>
+		<if test="userPassword!=null and userPassword!='' ">
+			and user_password LIKE CONCAT(CONCAT('%', #{userPassword}),'%')
+		</if>
+		<if test="startDate!=null and startDate!='' ">
+			and start_date LIKE CONCAT(CONCAT('%', #{startDate}),'%')
+		</if>
+		<if test="userLevel!=null">
+			and user_level = #{userLevel}
+		</if>
+		<if test="creditLevel!=null">
+			and credit_level = #{creditLevel}
+		</if>
+		<if test="userComment!=null">
+			and user_comment = #{userComment}
+		</if>
+		<if test="birthday!=null and birthday!='' ">
+			and birthday LIKE CONCAT(CONCAT('%', #{birthday}),'%')
+		</if>
+		<if test="normalAddress!=null and normalAddress!='' ">
+			and normal_address LIKE CONCAT(CONCAT('%', #{normalAddress}),'%')
+		</if>
+		<if test="userDescription!=null and userDescription!='' ">
+			and user_description LIKE CONCAT(CONCAT('%', #{userDescription}),'%')
+		</if>
+		<if test="feeLevel!=null">
+			and fee_level = #{feeLevel}
+		</if>
+		<if test="tokenId!=null and tokenId!='' ">
+			and token_id LIKE CONCAT(CONCAT('%', #{tokenId}),'%')
+		</if>
+		<if test="latitude!=null">
+			and latitude = #{latitude}
+		</if>
+		<if test="longitude!=null">
+			and longitude = #{longitude}
+		</if>
+		<if test="cityId!=null">
+			and city_id = #{cityId}
+		</if>
+	</select>
+
+	<select id="searchUsersByFieldsByLimit" resultMap="user">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users
+		where 1=1 
+		<if test="user.loginName!=null and user.loginName!='' ">
+			and login_name LIKE CONCAT(CONCAT('%', #{user.loginName}),'%')
+		</if>
+		<if test="user.active!=null">
+			and active = #{user.active}
+		</if>
+		<if test="user.gender!=null and user.gender!='' ">
+			and gender LIKE CONCAT(CONCAT('%', #{user.gender}),'%')
+		</if>
+		<if test="user.mobile!=null and user.mobile!='' ">
+			and mobile LIKE CONCAT(CONCAT('%', #{user.mobile}),'%')
+		</if>
+		<if test="user.mobilePublic!=null and user.mobilePublic!='' ">
+			and mobile_public LIKE CONCAT(CONCAT('%', #{user.mobilePublic}),'%')
+		</if>
+		<if test="user.qq!=null and user.qq!='' ">
+			and qq LIKE CONCAT(CONCAT('%', #{user.qq}),'%')
+		</if>
+		<if test="user.weixin!=null and user.weixin!='' ">
+			and weixin LIKE CONCAT(CONCAT('%', #{user.weixin}),'%')
+		</if>
+		<if test="user.weibo!=null and user.weibo!='' ">
+			and weibo LIKE CONCAT(CONCAT('%', #{user.weibo}),'%')
+		</if>
+		<if test="user.nickName!=null and user.nickName!='' ">
+			and nick_name LIKE CONCAT(CONCAT('%', #{user.nickName}),'%')
+		</if>
+		<if test="user.realName!=null and user.realName!='' ">
+			and real_name LIKE CONCAT(CONCAT('%', #{user.realName}),'%')
+		</if>
+		<if test="user.userType!=null">
+			and user_type = #{user.userType}
+		</if>
+		<if test="user.userPassword!=null and user.userPassword!='' ">
+			and user_password LIKE CONCAT(CONCAT('%', #{user.userPassword}),'%')
+		</if>
+		<if test="user.startDate!=null and user.startDate!='' ">
+			and start_date LIKE CONCAT(CONCAT('%', #{user.startDate}),'%')
+		</if>
+		<if test="user.userLevel!=null">
+			and user_level = #{user.userLevel}
+		</if>
+		<if test="user.creditLevel!=null">
+			and credit_level = #{user.creditLevel}
+		</if>
+		<if test="user.userComment!=null">
+			and user_comment = #{user.userComment}
+		</if>
+		<if test="user.birthday!=null and user.birthday!='' ">
+			and birthday LIKE CONCAT(CONCAT('%', #{user.birthday}),'%')
+		</if>
+		<if test="user.normalAddress!=null and user.normalAddress!='' ">
+			and normal_address LIKE CONCAT(CONCAT('%', #{user.normalAddress}),'%')
+		</if>
+		<if test="user.userDescription!=null and user.userDescription!='' ">
+			and user_description LIKE CONCAT(CONCAT('%', #{user.userDescription}),'%')
+		</if>
+		<if test="user.feeLevel!=null">
+			and fee_level = #{user.feeLevel}
+		</if>
+		<if test="user.tokenId!=null and user.tokenId!='' ">
+			and token_id LIKE CONCAT(CONCAT('%', #{user.tokenId}),'%')
+		</if>
+		<if test="user.latitude!=null">
+			and latitude = #{user.latitude}
+		</if>
+		<if test="user.longitude!=null">
+			and longitude = #{user.longitude}
+		</if>
+		<if test="user.cityId!=null">
+			and city_id = #{user.cityId}
+		</if>
+		limit #{limit} offset #{start}
+	</select>
+
+	<select id="searchUsersByLoginName" resultMap="user" parameterType="string">
+		select user_id,login_name,active,gender,mobile,mobile_public,qq,weixin,weibo,nick_name,real_name,user_type,user_password,start_date,user_level,credit_level,user_comment,birthday,normal_address,user_description,fee_level,token_id,latitude,longitude,city_id from std_users where login_name like CONCAT(CONCAT('%',#{value}),'%')
+	</select>
+
+	<update id="softDeleteUser" parameterType="Long">
+		update std_users set active = false where user_id = #{value} 
+	</update>
+
+	<update id="toggleUser" parameterType="Long">
+		update std_users set active = not active where user_id = #{value} 
+	</update>
+
+	<select id="updateUser" parameterType="org.javaforever.myareas.domain.User">
+		update std_users set login_name = #{loginName} ,active = #{active} ,gender = #{gender} ,mobile = #{mobile} ,mobile_public = #{mobilePublic} ,qq = #{qq} ,weixin = #{weixin} ,weibo = #{weibo} ,nick_name = #{nickName} ,real_name = #{realName} ,user_type = #{userType} ,user_password = #{userPassword} ,start_date = #{startDate} ,user_level = #{userLevel} ,credit_level = #{creditLevel} ,user_comment = #{userComment} ,birthday = #{birthday} ,normal_address = #{normalAddress} ,user_description = #{userDescription} ,fee_level = #{feeLevel} ,token_id = #{tokenId} ,latitude = #{latitude} ,longitude = #{longitude} ,city_id = #{cityId} where user_id = #{userId}
+	</select>
+
+</mapper>

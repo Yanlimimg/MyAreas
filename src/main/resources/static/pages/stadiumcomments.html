@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Expires" CONTENT="0">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<title>场馆评论</title>
+<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
+<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../uploadjs/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="../uploadjs/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="../uploadjs/jquery.fileupload.js"></script>
+<script type="text/javascript" src="../js/auth.js"></script>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',border:false" style="height:100px;background:#B3DFDA;padding:10px">
+<div style="float:right;clear:both;margin-top:15px;margin-right:20px">
+	<a href="javascript:logout()">注销</a>
+	</div>
+	<h2>代码生成器：光 的生成结果</h2>
+	<h3>自2014开始为公众服务</h3>
+</div>
+<div data-options="region:'west',split:true,title:'主菜单'" style="width:180px;padding:0px;">
+<div onclick="window.location='../pages/index.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">主页</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/users.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">用户</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiums.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiumpictures.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆图片</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiumareas.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆区域</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiumcomments.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆评论</div><div class="menu-icon icon-add"></div></div>
+</div>
+<div data-options="region:'east',split:true,collapsed:true,title:'属性'" style="width:250px;overflow: hidden">
+</div>
+<div data-options="region:'south',border:false" style="height:40px;background:#A9FACD;padding:10px;text-align: center">
+	火箭船软件工作室版权所有。作者电邮:jerry_shen_sjf@qq.com QQ群:277689737
+</div>
+<div data-options="region:'center',title:'第三代动词算子式代码生成器：光　生成结果'">
+<div title="搜索面板" class="easyui-panel" style="width:1600px;height:200px">
+<form id="ffsearch" method="post">
+<table cellpadding="5">
+<tr>
+<td>场馆评论名称:</td><td><input  class='easyui-textbox' type='text' name='stadiumCommentName' id='stadiumCommentName' value='' data-options="required:false"/></td>
+<td>活跃:</td><td><input class='easyui-textbox' type='text' name='active' id='active' value='' data-options="required:false"/></td>
+
+<td>场馆:</td><td><input  class='easyui-combobox' type='text' name='stadiumId' id='stadiumId' value='' data-options="required:false,valueField:'stadiumId',textField:'stadiumName',method:'post',url:'../stadiumController/listActiveStadiums',loadFilter:function(data){return data.rows}"/></td>
+<td>
+		<select id="actionSelect" class='easyui-select' style="	width:90px;height:28px" onchange="toggleBtnShow(this.value)">
+			<option value="1" selected>搜索</option>
+			<option value="2">Excel过滤</option>
+			<option value="3">PDF过滤</option>
+			<option value="4">Word过滤</option>
+			<option value="5">PPT过滤</option>
+		</select>
+		</td><td>
+		<div id="button-bar">
+			<a href="#" class="easyui-linkbutton" style="display:block;width:110px;height:28px" data-options="iconCls:'icon-search'" onclick="searchStadiumCommentsByFieldsByPage()">搜索</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterStadiumCommentsExcel()">Excel过滤</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterStadiumCommentsPDF()"">PDF过滤</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterStadiumCommentsWord()"">Word过滤</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterPPTStadiumComments()"">PPT过滤</a>
+		</div>
+		</td><td>
+			<a href="javascript:void(0)" class="easyui-linkbutton" style="width:80px" data-options="iconCls:'icon-clear'"  onclick="clearForm('ffsearch');toggleBtnShow(1);$('#actionSelect').val(1)">清除</a>
+</td>
+</tr>
+<tr>
+
+<td>用户:</td><td><input  class='easyui-combobox' type='text' name='userId' id='userId' value='' data-options="required:false,valueField:'userId',textField:'loginName',method:'post',url:'../userController/listActiveUsers',loadFilter:function(data){return data.rows}"/></td>
+<td>创建时间:</td><td><input class='easyui-textbox' type='text' name='createTime' id='createTime' value='' data-options="required:false"/></td>
+<td>星标:</td><td><input class='easyui-textbox' type='text' name='star' id='star' value='' data-options="required:false"/></td>
+<td></td><td colspan='3'></td>
+</tr>
+<tr>
+<td>评论:</td><td><input  class='easyui-textbox' type='text' name='comments' id='comments' value='' data-options="required:false"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td></td><td colspan='3'></td>
+</tr>
+</table>
+</form>
+</div>
+<table id="dg" class="easyui-datagrid" title="场馆评论清单" style="width:1600px;height:600px" data-options="singleSelect:false,url:'../stadiumCommentController/searchStadiumCommentsByFieldsByPage',queryParams:params,method:'post',pagination:true,toolbar:toolbar">
+<thead>
+<tr>
+<th data-options="field:'stadiumCommentId',checkbox:true">场馆评论序号</th>
+<th data-options="field:'stadiumCommentName',width:80">场馆评论名称</th>
+<th data-options="field:'active',width:80">活跃</th>
+
+<th data-options="field:'stadiumId',width:80,formatter:translateStadium">场馆</th>
+
+<th data-options="field:'userId',width:80,formatter:translateUser">用户</th>
+<th data-options="field:'createTime',width:80">创建时间</th>
+<th data-options="field:'star',width:80">星标</th>
+<th data-options="field:'comments',width:80">评论</th>
+</tr>
+</thead>
+</table>
+<div class="easyui-window" title="新增场馆评论" id="waddStadiumComment" data-options="iconCls:'icon-save',modal:true,closed:true" style="width:800px;height:600px">
+<div style="padding:10px 60px 20px 60px">
+<form id="ff" method="post">
+<table cellpadding="5">
+
+<tr><td>场馆评论名称:</td><td><textarea  class='easyui-textarea' type='text' name='stadiumCommentName' id='stadiumCommentName' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+
+
+
+<tr><td>场馆:</td><td><input  class='easyui-combobox' type='text' name='stadiumId' id='stadiumId' value='' data-options="required:false,valueField:'stadiumId',textField:'stadiumName',method:'post',url:'../stadiumController/listActiveStadiums',loadFilter:function(data){return data.rows}"/></td></tr>
+
+
+
+<tr><td>用户:</td><td><input  class='easyui-combobox' type='text' name='userId' id='userId' value='' data-options="required:false,valueField:'userId',textField:'loginName',method:'post',url:'../userController/listActiveUsers',loadFilter:function(data){return data.rows}"/></td></tr>
+<tr><td>创建时间:</td><td><input  class='easyui-textbox' type='text' name='createTime' id='createTime' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>星标:</td><td><input  class='easyui-textbox' type='text' name='star' id='star' value='' data-options="required:false"/></td></tr>
+
+
+
+<tr><td>评论:</td><td><textarea  class='easyui-textarea' type='text' name='comments' id='comments' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+<tr><td>活跃:</td><td><input class='easyui-radio' type='radio' name='active' id='active' value='true' checked='true'/>True<input type='radio' class='easyui-radio' name='active' id='active' value='false'/>False</td></tr>
+</table>
+</form>
+<div style="text-align:center;padding:5px">
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addStadiumComment()">新增</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm('ff')">清除</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#waddStadiumComment').window('close')">取消</a>
+</div>
+</div>
+<div class="easyui-window" title="编辑场馆评论" id="wupdateStadiumComment" data-options="iconCls:'icon-save',modal:true,closed:true" style="width:800px;height:600px">
+<div style="padding:10px 60px 20px 60px">
+<form id="ffedit" method="post">
+<input  type='hidden' name='stadiumCommentId' id='stadiumCommentId' value=''/>
+<table cellpadding="5">
+
+<tr><td>场馆评论名称:</td><td><textarea  class='easyui-textarea' type='text' name='stadiumCommentName' id='stadiumCommentName' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+
+
+
+<tr><td>场馆:</td><td><input  class='easyui-combobox' type='text' name='stadiumId' id='stadiumId' value='' data-options="required:false,valueField:'stadiumId',textField:'stadiumName',method:'post',url:'../stadiumController/listActiveStadiums',loadFilter:function(data){return data.rows}"/></td></tr>
+
+
+
+<tr><td>用户:</td><td><input  class='easyui-combobox' type='text' name='userId' id='userId' value='' data-options="required:false,valueField:'userId',textField:'loginName',method:'post',url:'../userController/listActiveUsers',loadFilter:function(data){return data.rows}"/></td></tr>
+<tr><td>创建时间:</td><td><input  class='easyui-textbox' type='text' name='createTime' id='createTime' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>星标:</td><td><input  class='easyui-textbox' type='text' name='star' id='star' value='' data-options="required:false"/></td></tr>
+
+
+
+<tr><td>评论:</td><td><textarea  class='easyui-textarea' type='text' name='comments' id='comments' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+<tr><td>活跃:</td><td><input class='easyui-radio' type='radio' name='active' id='active' value='true' checked='true'/>True<input type='radio' class='easyui-radio' name='active' id='active' value='false'/>False</td></tr>
+</table>
+</form>
+<div style="text-align:center;padding:5px">
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateStadiumComment()">编辑</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#ffedit').form('clear');">清除</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#wupdateStadiumComment').window('close')">取消</a>
+</div>
+</div>
+<div class="easyui-window" title="查看场馆评论" id="wviewStadiumComment" data-options="iconCls:'icon-save',modal:true,closed:true" style="width:800px;height:600px">
+<div style="padding:10px 60px 20px 60px">
+<form id="ffview" method="post">
+<input  type='hidden' name='stadiumCommentId' id='stadiumCommentId' value=''/>
+<table cellpadding="5">
+
+<tr><td>场馆评论名称:</td><td><textarea  class='easyui-textarea' type='text' name='stadiumCommentName' id='stadiumCommentName' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+
+
+
+<tr><td>场馆:</td><td><input  class='easyui-combobox' type='text' name='stadiumId' id='stadiumId' value='' data-options="required:false,valueField:'stadiumId',textField:'stadiumName',method:'post',url:'../stadiumController/listActiveStadiums',loadFilter:function(data){return data.rows}"/></td></tr>
+
+
+
+<tr><td>用户:</td><td><input  class='easyui-combobox' type='text' name='userId' id='userId' value='' data-options="required:false,valueField:'userId',textField:'loginName',method:'post',url:'../userController/listActiveUsers',loadFilter:function(data){return data.rows}"/></td></tr>
+<tr><td>创建时间:</td><td><input  class='easyui-textbox' type='text' name='createTime' id='createTime' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>星标:</td><td><input  class='easyui-textbox' type='text' name='star' id='star' value='' data-options="required:false"/></td></tr>
+
+
+
+<tr><td>评论:</td><td><textarea  class='easyui-textarea' type='text' name='comments' id='comments' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+<tr><td>活跃:</td><td><input class='easyui-radio' type='radio' name='active' id='active' value='true' checked='true'/>True<input type='radio' class='easyui-radio' name='active' id='active' value='false'/>False</td></tr>
+</table>
+</form>
+<div style="text-align:center;padding:5px">
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#wviewStadiumComment').window('close')">关闭</a>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+var params = {};
+var pagesize = 10;
+var pagenum = 1;
+var toolbar = [
+{
+	text:'查看',
+	iconCls:'icon-search',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		$("#ffview").find("#stadiumCommentId").val(rows[0]["stadiumCommentId"]);
+		$("#ffview").find("#stadiumCommentName").val(rows[0]["stadiumCommentName"]);
+		$("#ffview").find("#stadiumId").combobox("setValue",rows[0]["stadiumId"]);
+		$("#ffview").find("#userId").combobox("setValue",rows[0]["userId"]);
+		$("#ffview").find("#createTime").textbox("setValue",rows[0]["createTime"]);
+		$("#ffview").find("#star").textbox("setValue",rows[0]["star"]);
+		$("#ffview").find("#comments").val(rows[0]["comments"]);
+		var checkboxs = $("#ffview").find("input[name='active']");
+		for (var i=0;i<checkboxs.length;i++){
+			if (checkboxs.get(i).value == ""+rows[0]["active"]) checkboxs.get(i).checked=true;
+		}
+		$('#wviewStadiumComment').window('open');
+	}
+}
+,
+{
+	text:'新增',
+	iconCls:'icon-add',
+	handler:function(){
+		$('#waddStadiumComment').window('open');
+	}
+}
+,
+{
+	text:'编辑',
+	iconCls:'icon-edit',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		$("#ffedit").find("#stadiumCommentId").val(rows[0]["stadiumCommentId"]);
+		$("#ffedit").find("#stadiumCommentName").val(rows[0]["stadiumCommentName"]);
+		$("#ffedit").find("#stadiumId").combobox("setValue",rows[0]["stadiumId"]);
+		$("#ffedit").find("#userId").combobox("setValue",rows[0]["userId"]);
+		$("#ffedit").find("#createTime").textbox("setValue",rows[0]["createTime"]);
+		$("#ffedit").find("#star").textbox("setValue",rows[0]["star"]);
+		$("#ffedit").find("#comments").val(rows[0]["comments"]);
+		var checkboxs = $("#ffedit").find("input[name='active']");
+		for (var i=0;i<checkboxs.length;i++){
+			if (checkboxs.get(i).value == ""+rows[0]["active"]) checkboxs.get(i).checked=true;
+		}
+		$('#wupdateStadiumComment').window('open');
+	}
+}
+,
+{
+	text:'软删除',
+	iconCls:'icon-remove',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumCommentId = rows[0]["stadiumCommentId"];
+		softDeleteStadiumComment(stadiumCommentId);
+	}
+}
+,
+{
+	text:'激活',
+	iconCls:'icon-tip',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumCommentId = rows[0]["stadiumCommentId"];
+		activateStadiumComment(stadiumCommentId);
+	}
+}
+,
+{
+	text:'克隆',
+	iconCls:'icon-add',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumCommentId = rows[0]["stadiumCommentId"];
+		cloneStadiumComment(stadiumCommentId);
+	}
+}
+,
+{
+	text:'删除',
+	iconCls:'icon-remove',
+	handler:function(){
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if ($.messager.confirm("警告","确认要删除选定记录吗？", function(data){
+			if (data){
+				if (rows.length > 1) {
+					$.messager.alert("警告","请选定一条记录！","warning");
+					return;
+				}
+				var stadiumCommentId = rows[0]["stadiumCommentId"];
+				deleteStadiumComment(stadiumCommentId);
+			}
+		}));
+}
+}
+,
+{
+	text:'切换',
+	iconCls:'icon-cut',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumCommentId = rows[0]["stadiumCommentId"];
+		toggleStadiumComment(stadiumCommentId);
+	}
+}
+,
+{
+	text:'留一切换',
+	iconCls:'icon-cut',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumCommentId = rows[0]["stadiumCommentId"];
+		toggleOneStadiumComment(stadiumCommentId);
+	}
+}
+,'-',
+{
+	text:'批软删除',
+	iconCls:'icon-remove',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		var ids = "";
+		for(var i=0;i<rows.length;i++){
+			ids += rows[i]["stadiumCommentId"];
+			if (i < rows.length-1) ids += ",";
+		}
+		softDeleteAllStadiumComments(ids);
+	}
+}
+,
+{
+	text:'批激活',
+	iconCls:'icon-tip',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		var ids = "";
+		for(var i=0;i<rows.length;i++){
+			ids += rows[i]["stadiumCommentId"];
+			if (i < rows.length-1) ids += ",";
+		}
+		activateAllStadiumComments(ids);
+	}
+}
+,
+{
+	text:'批克隆',
+	iconCls:'icon-add',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		var ids = "";
+		for(var i=0;i<rows.length;i++){
+			ids += rows[i]["stadiumCommentId"];
+			if (i < rows.length-1) ids += ",";
+		}
+		cloneAllStadiumComments(ids);
+	}
+}
+,
+{
+	text:'批删除',
+	iconCls:'icon-remove',
+	handler:function(){
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		if ($.messager.confirm("警告","确认要删除选定记录吗？",function(data){
+			if (data){
+				var ids = "";
+				for(var i=0;i<rows.length;i++){
+					ids += rows[i]["stadiumCommentId"];
+					if (i < rows.length-1) ids += ",";
+				}
+				deleteAllStadiumComments(ids);
+			}
+		}));
+	}
+}
+,
+{
+	text:'Excel导出',
+	iconCls:'icon-sum',
+	handler:function(){
+		window.location.href="../stadiumCommentController/exportStadiumComments";
+	}
+}
+,
+{
+	text:'PDF导出',
+	iconCls:'icon-print',
+	handler:function(){
+		window.location.href="../stadiumCommentController/exportStadiumCommentsPDF";
+	}
+}
+,
+{
+	text:'Word导出',
+	iconCls:'icon-save',
+	handler:function(){
+		window.location.href="../stadiumCommentController/exportStadiumCommentsWord";
+	}
+}
+,
+{
+	text:'PPT导出',
+	iconCls:'icon-tip',
+	handler:function(){
+		window.location.href="../stadiumCommentController/exportPPTStadiumComments";
+	}
+}
+];
+$(document).ready(function(){
+$("#dg").datagrid("load");
+});
+function clearForm(formId){
+$('#'+formId).form('clear');
+}
+function addStadiumComment(){
+	if ($("#ff").form("validate")) {
+		$.ajax({
+			type: "post",
+			url: "../stadiumCommentController/addStadiumComment",
+			data: JSON.stringify({
+				stadiumCommentName:$("#ff").find("#stadiumCommentName").val(),
+				active:parseBoolean($("#ff").find("input[name='active']:checked").val()),
+				stadiumId:$("#ff").find("#stadiumId").combobox("getValue"),
+				userId:$("#ff").find("#userId").combobox("getValue"),
+				createTime:$("#ff").find("#createTime").val(),
+				star:$("#ff").find("#star").val(),
+				comments:$("#ff").find("#comments").val(),
+			}),
+			dataType: 'json',
+			contentType:"application/json;charset=UTF-8",
+			success: function(data, textStatus) {
+				if (data.success) {
+					window.location.reload();
+				}
+				},
+			complete : function(XMLHttpRequest, textStatus) {
+			},
+			error : function(XMLHttpRequest,textStatus,errorThrown) {
+				alert("Error:"+textStatus);
+				alert(errorThrown.toString());
+			}
+		});
+	}
+}
+
+function updateStadiumComment(){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/updateStadiumComment",
+		data: JSON.stringify({
+			stadiumCommentId:$("#ffedit").find("#stadiumCommentId").val(),
+			stadiumCommentName:$("#ffedit").find("#stadiumCommentName").val(),
+			active:parseBoolean($("#ffedit").find("input[name='active']:checked").val()),
+			stadiumId:$("#ffedit").find("#stadiumId").combobox("getValue"),
+			userId:$("#ffedit").find("#userId").combobox("getValue"),
+			createTime:$("#ffedit").find("#createTime").val(),
+			star:$("#ffedit").find("#star").val(),
+			comments:$("#ffedit").find("#comments").val(),
+		}),
+		dataType: 'json',
+		contentType:"application/json;charset=UTF-8",
+		success: function(data, textStatus) {
+			if (data.success){
+				$("#wupdateStadiumComment").window('close');
+				$("#dg").datagrid("load");
+			}
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	}); 
+}
+
+function softDeleteStadiumComment(stadiumCommentId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/softDeleteStadiumComment",
+		data: {
+			"stadiumCommentId":stadiumCommentId	
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function activateStadiumComment(stadiumCommentId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/activateStadiumComment",
+		data: {
+			"stadiumCommentId":stadiumCommentId
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function cloneStadiumComment(stadiumCommentId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/cloneStadiumComment",
+		data: {
+			"stadiumCommentId":stadiumCommentId	
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function deleteStadiumComment(stadiumCommentId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/deleteStadiumComment",
+		dataType: 'json',
+		data:{"stadiumCommentId":stadiumCommentId},
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	}); 
+}
+
+function toggleStadiumComment(stadiumCommentId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/toggleStadiumComment",
+		data: {
+			"stadiumCommentId":stadiumCommentId
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function toggleOneStadiumComment(stadiumCommentId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/toggleOneStadiumComment",
+		data: {
+			"stadiumCommentId":stadiumCommentId
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function softDeleteAllStadiumComments(ids){
+	$.ajax({
+		type: "post",
+			url: "../stadiumCommentController/softDeleteAllStadiumComments",
+			data: {
+				ids:ids
+			},
+			dataType: 'json',
+			success: function(data, textStatus) {
+				$("#dg").datagrid("load");
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function activateAllStadiumComments(ids){
+	$.ajax({
+		type: "post",
+			url: "../stadiumCommentController/activateAllStadiumComments",
+			data: {
+				ids:ids
+			},
+			dataType: 'json',
+			success: function(data, textStatus) {
+				$("#dg").datagrid("load");
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function cloneAllStadiumComments(ids){
+	$.ajax({
+		type: "post",
+			url: "../stadiumCommentController/cloneAllStadiumComments",
+			data: {
+				ids:ids
+			},
+			dataType: 'json',
+			success: function(data, textStatus) {
+				$("#dg").datagrid("load");
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function deleteAllStadiumComments(ids){
+	$.ajax({
+		type: "post",
+		url: "../stadiumCommentController/deleteAllStadiumComments",
+		data: {
+			ids:ids
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function searchStadiumCommentsByFieldsByPage(){
+	params = {
+		stadiumCommentName:$("#ffsearch").find("#stadiumCommentName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumId:$("#ffsearch").find("#stadiumId").combobox("getValue"),
+		userId:$("#ffsearch").find("#userId").combobox("getValue"),
+		createTime:$("#ffsearch").find("#createTime").val(),
+		star:$("#ffsearch").find("#star").val(),
+		comments:$("#ffsearch").find("#comments").val(),
+	};
+	$("#dg").datagrid({queryParams:params});
+}
+
+function filterStadiumCommentsExcel(){
+	params = {
+		stadiumCommentName:$("#ffsearch").find("#stadiumCommentName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumId:$("#ffsearch").find("#stadiumId").combobox("getValue"),
+		userId:$("#ffsearch").find("#userId").combobox("getValue"),
+		createTime:$("#ffsearch").find("#createTime").val(),
+		star:$("#ffsearch").find("#star").val(),
+		comments:$("#ffsearch").find("#comments").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumCommentController/filterStadiumCommentsExcel?" + params0;
+}
+
+function filterStadiumCommentsPDF(){
+	params = {
+		stadiumCommentName:$("#ffsearch").find("#stadiumCommentName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumId:$("#ffsearch").find("#stadiumId").combobox("getValue"),
+		userId:$("#ffsearch").find("#userId").combobox("getValue"),
+		createTime:$("#ffsearch").find("#createTime").val(),
+		star:$("#ffsearch").find("#star").val(),
+		comments:$("#ffsearch").find("#comments").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumCommentController/filterStadiumCommentsPDF?" + params0;
+}
+
+function filterStadiumCommentsWord(){
+	params = {
+		stadiumCommentName:$("#ffsearch").find("#stadiumCommentName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumId:$("#ffsearch").find("#stadiumId").combobox("getValue"),
+		userId:$("#ffsearch").find("#userId").combobox("getValue"),
+		createTime:$("#ffsearch").find("#createTime").val(),
+		star:$("#ffsearch").find("#star").val(),
+		comments:$("#ffsearch").find("#comments").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumCommentController/filterStadiumCommentsWord?" + params0;
+}
+
+function filterPPTStadiumComments(){
+	params = {
+		stadiumCommentName:$("#ffsearch").find("#stadiumCommentName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumId:$("#ffsearch").find("#stadiumId").combobox("getValue"),
+		userId:$("#ffsearch").find("#userId").combobox("getValue"),
+		createTime:$("#ffsearch").find("#createTime").val(),
+		star:$("#ffsearch").find("#star").val(),
+		comments:$("#ffsearch").find("#comments").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumCommentController/filterPPTStadiumComments?" + params0;
+}
+
+function parseBoolean(val){
+	if (val == undefined|| val == null) return false;
+	var isInt = /^(-}+)?\d+$/.test(val);
+	if (isInt&& val == "0") return false;
+	else if (isInt&& val == "1") return true;
+	else if (val.toLowerCase() == "false") return false;
+	else if (val.toLowerCase() == "true") return true;
+	else if (val.toLowerCase() == "f") return false;
+	else if (val.toLowerCase() == "t") return true;
+	else if (val.toLowerCase() == "n") return false;
+	else if (val.toLowerCase() == "y") return true;
+	else if (val.toLowerCase() == "no") return false;
+	else if (val.toLowerCase() == "yes") return true;
+	else return "";
+}
+
+function parseBooleanInt(val){
+	var b = parseBoolean(val);
+	if (b==undefined||b==null) return 0;
+	else if (b==true) return 1;
+	else return 0;
+}
+
+function isBlank(val){
+	if (val == undefined|| val == null || val == "" || val== "0" || val == 0) return true;
+	else return false;
+}
+
+function checkRadioBoxValue(control,field,fieldvalue){
+	var checkboxs = $("#"+control).find("input[name='"+field+"']");
+	for (var i=0;i<checkboxs.length;i++){
+		if (checkboxs.get(i).value == ""+fieldvalue) checkboxs.get(i).checked=true;
+	}
+}
+
+function toggleBtnShow(index){
+	$('#button-bar a').css('display','none');
+	$('#button-bar a:nth-child('+(index)+')').css('display','block');
+}
+
+function translateStadium(value){
+	if (isBlank(value)) return "";
+	var retVal = value;
+	$.ajax({
+		type:"post",
+		url: "../stadiumController/findStadiumByStadiumId",
+		data: {
+			stadiumId:value
+		},
+		dataType: 'json',
+		async:false,
+		success: function(data, textStatus) {
+			debugger;
+			if ( data.data !=null && data.data.stadiumName!=null){
+				retVal = data.data.stadiumName;
+			}else{
+				retVal = "";
+			}
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+	return retVal;
+}
+
+function translateUser(value){
+	if (isBlank(value)) return "";
+	var retVal = value;
+	$.ajax({
+		type:"post",
+		url: "../userController/findUserByUserId",
+		data: {
+			userId:value
+		},
+		dataType: 'json',
+		async:false,
+		success: function(data, textStatus) {
+			debugger;
+			if ( data.data !=null && data.data.loginName!=null){
+				retVal = data.data.loginName;
+			}else{
+				retVal = "";
+			}
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+	return retVal;
+}
+
+</script>
+</html>

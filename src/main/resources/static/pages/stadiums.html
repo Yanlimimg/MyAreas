@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Expires" CONTENT="0">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<title>场馆</title>
+<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
+<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../uploadjs/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="../uploadjs/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="../uploadjs/jquery.fileupload.js"></script>
+<script type="text/javascript" src="../js/auth.js"></script>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',border:false" style="height:100px;background:#B3DFDA;padding:10px">
+<div style="float:right;clear:both;margin-top:15px;margin-right:20px">
+	<a href="javascript:logout()">注销</a>
+	</div>
+	<h2>代码生成器：光 的生成结果</h2>
+	<h3>自2014开始为公众服务</h3>
+</div>
+<div data-options="region:'west',split:true,title:'主菜单'" style="width:180px;padding:0px;">
+<div onclick="window.location='../pages/index.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">主页</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/users.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">用户</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiums.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiumpictures.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆图片</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiumareas.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆区域</div><div class="menu-icon icon-add"></div></div>
+<div onclick="window.location='../pages/stadiumcomments.html'" class="menu-item" style="height: 20px;"><div class="menu-text" style="height: 20px; line-height: 20px;">场馆评论</div><div class="menu-icon icon-add"></div></div>
+</div>
+<div data-options="region:'east',split:true,collapsed:true,title:'属性'" style="width:250px;overflow: hidden">
+</div>
+<div data-options="region:'south',border:false" style="height:40px;background:#A9FACD;padding:10px;text-align: center">
+	火箭船软件工作室版权所有。作者电邮:jerry_shen_sjf@qq.com QQ群:277689737
+</div>
+<div data-options="region:'center',title:'第三代动词算子式代码生成器：光　生成结果'">
+<div title="搜索面板" class="easyui-panel" style="width:1600px;height:200px">
+<form id="ffsearch" method="post">
+<table cellpadding="5">
+<tr>
+<td>场馆名称:</td><td><input  class='easyui-textbox' type='text' name='stadiumName' id='stadiumName' value='' data-options="required:false"/></td>
+<td>活跃:</td><td><input class='easyui-textbox' type='text' name='active' id='active' value='' data-options="required:false"/></td>
+<td>评价:</td><td><input class='easyui-textbox' type='text' name='stadiumComment' id='stadiumComment' value='' data-options="required:false"/></td>
+<td>
+		<select id="actionSelect" class='easyui-select' style="	width:90px;height:28px" onchange="toggleBtnShow(this.value)">
+			<option value="1" selected>搜索</option>
+			<option value="2">Excel过滤</option>
+			<option value="3">PDF过滤</option>
+			<option value="4">Word过滤</option>
+			<option value="5">PPT过滤</option>
+		</select>
+		</td><td>
+		<div id="button-bar">
+			<a href="#" class="easyui-linkbutton" style="display:block;width:110px;height:28px" data-options="iconCls:'icon-search'" onclick="searchStadiumsByFieldsByPage()">搜索</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterStadiumsExcel()">Excel过滤</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterStadiumsPDF()"">PDF过滤</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterStadiumsWord()"">Word过滤</a>
+			<a href="#" class="easyui-linkbutton" style="display:none;width:110px;height:28px" data-options="iconCls:'icon-filter'" onclick="filterPPTStadiums()"">PPT过滤</a>
+		</div>
+		</td><td>
+			<a href="javascript:void(0)" class="easyui-linkbutton" style="width:80px" data-options="iconCls:'icon-clear'"  onclick="clearForm('ffsearch');toggleBtnShow(1);$('#actionSelect').val(1)">清除</a>
+</td>
+</tr>
+<tr>
+<td>开放时间:</td><td><input  class='easyui-textbox' type='text' name='opentime' id='opentime' value='' data-options="required:false"/></td>
+<td>纬度:</td><td><input class='easyui-textbox' type='text' name='latitude' id='latitude' value='' data-options="required:false"/></td>
+<td>经度:</td><td><input class='easyui-textbox' type='text' name='longitude' id='longitude' value='' data-options="required:false"/></td>
+<td></td><td colspan='3'></td>
+</tr>
+<tr>
+<td>电话:</td><td><input  class='easyui-textbox' type='text' name='telephone' id='telephone' value='' data-options="required:false"/></td>
+<td>细节:</td><td><input class='easyui-textbox' type='text' name='detail' id='detail' value='' data-options="required:false"/></td>
+<td>能否停车:</td><td><input class='easyui-textbox' type='text' name='canPark' id='canPark' value='' data-options="required:false"/></td>
+<td></td><td colspan='3'></td>
+</tr>
+<tr>
+<td>是否有卖品部:</td><td><input  class='easyui-textbox' type='text' name='canSell' id='canSell' value='' data-options="required:false"/></td>
+<td>能否吃饭:</td><td><input class='easyui-textbox' type='text' name='canRest' id='canRest' value='' data-options="required:false"/></td>
+<td>能否出租:</td><td><input class='easyui-textbox' type='text' name='canRent' id='canRent' value='' data-options="required:false"/></td>
+<td></td><td colspan='3'></td>
+</tr>
+<tr>
+<td>是否可使用信用卡:</td><td><input  class='easyui-textbox' type='text' name='canCard' id='canCard' value='' data-options="required:false"/></td>
+<td>能否洗浴:</td><td><input class='easyui-textbox' type='text' name='canBath' id='canBath' value='' data-options="required:false"/></td>
+<td>能否长定:</td><td><input class='easyui-textbox' type='text' name='canLongBuy' id='canLongBuy' value='' data-options="required:false"/></td>
+<td></td><td colspan='3'></td>
+</tr>
+<tr>
+<td>球类类型:</td><td><input  class='easyui-textbox' type='text' name='ballType' id='ballType' value='' data-options="required:false"/></td>
+<td>场馆类型:</td><td><input class='easyui-textbox' type='text' name='stadiumType' id='stadiumType' value='' data-options="required:false"/></td>
+<td>城市序号:</td><td><input class='easyui-textbox' type='text' name='cityId' id='cityId' value='' data-options="required:false"/></td>
+<td></td><td colspan='3'></td>
+</tr>
+</table>
+</form>
+</div>
+<table id="dg" class="easyui-datagrid" title="场馆清单" style="width:1600px;height:600px" data-options="singleSelect:false,url:'../stadiumController/searchStadiumsByFieldsByPage',queryParams:params,method:'post',pagination:true,toolbar:toolbar">
+<thead>
+<tr>
+<th data-options="field:'stadiumId',checkbox:true">场馆序号</th>
+<th data-options="field:'stadiumName',width:80">场馆名称</th>
+<th data-options="field:'active',width:80">活跃</th>
+<th data-options="field:'stadiumComment',width:80">评价</th>
+<th data-options="field:'opentime',width:80">开放时间</th>
+<th data-options="field:'latitude',width:80">纬度</th>
+<th data-options="field:'longitude',width:80">经度</th>
+<th data-options="field:'telephone',width:80">电话</th>
+<th data-options="field:'detail',width:80">细节</th>
+<th data-options="field:'canPark',width:80">能否停车</th>
+<th data-options="field:'canSell',width:80">是否有卖品部</th>
+<th data-options="field:'canRest',width:80">能否吃饭</th>
+<th data-options="field:'canRent',width:80">能否出租</th>
+<th data-options="field:'canCard',width:80">是否可使用信用卡</th>
+<th data-options="field:'canBath',width:80">能否洗浴</th>
+<th data-options="field:'canLongBuy',width:80">能否长定</th>
+<th data-options="field:'ballType',width:80">球类类型</th>
+<th data-options="field:'stadiumType',width:80">场馆类型</th>
+<th data-options="field:'cityId',width:80">城市序号</th>
+</tr>
+</thead>
+</table>
+<div class="easyui-window" title="新增场馆" id="waddStadium" data-options="iconCls:'icon-save',modal:true,closed:true" style="width:800px;height:600px">
+<div style="padding:10px 60px 20px 60px">
+<form id="ff" method="post">
+<table cellpadding="5">
+<tr><td>场馆名称:</td><td><input  class='easyui-textbox' type='text' name='stadiumName' id='stadiumName' value='' data-options="required:false"/></td></tr>
+
+
+
+<tr><td>评价:</td><td><textarea  class='easyui-textarea' type='text' name='stadiumComment' id='stadiumComment' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+<tr><td>开放时间:</td><td><input  class='easyui-textbox' type='text' name='opentime' id='opentime' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>纬度:</td><td><input  class='easyui-textbox' type='text' name='latitude' id='latitude' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>经度:</td><td><input  class='easyui-textbox' type='text' name='longitude' id='longitude' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>电话:</td><td><input  class='easyui-textbox' type='text' name='telephone' id='telephone' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>细节:</td><td><input  class='easyui-textbox' type='text' name='detail' id='detail' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否停车:</td><td><input  class='easyui-textbox' type='text' name='canPark' id='canPark' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>是否有卖品部:</td><td><input  class='easyui-textbox' type='text' name='canSell' id='canSell' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否吃饭:</td><td><input  class='easyui-textbox' type='text' name='canRest' id='canRest' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否出租:</td><td><input  class='easyui-textbox' type='text' name='canRent' id='canRent' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>是否可使用信用卡:</td><td><input  class='easyui-textbox' type='text' name='canCard' id='canCard' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否洗浴:</td><td><input  class='easyui-textbox' type='text' name='canBath' id='canBath' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否长定:</td><td><input  class='easyui-textbox' type='text' name='canLongBuy' id='canLongBuy' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>球类类型:</td><td><input  class='easyui-textbox' type='text' name='ballType' id='ballType' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>场馆类型:</td><td><input  class='easyui-textbox' type='text' name='stadiumType' id='stadiumType' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>城市序号:</td><td><input  class='easyui-textbox' type='text' name='cityId' id='cityId' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>活跃:</td><td><input class='easyui-radio' type='radio' name='active' id='active' value='true' checked='true'/>True<input type='radio' class='easyui-radio' name='active' id='active' value='false'/>False</td></tr>
+</table>
+</form>
+<div style="text-align:center;padding:5px">
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addStadium()">新增</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm('ff')">清除</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#waddStadium').window('close')">取消</a>
+</div>
+</div>
+<div class="easyui-window" title="编辑场馆" id="wupdateStadium" data-options="iconCls:'icon-save',modal:true,closed:true" style="width:800px;height:600px">
+<div style="padding:10px 60px 20px 60px">
+<form id="ffedit" method="post">
+<input  type='hidden' name='stadiumId' id='stadiumId' value=''/>
+<table cellpadding="5">
+<tr><td>场馆名称:</td><td><input  class='easyui-textbox' type='text' name='stadiumName' id='stadiumName' value='' data-options="required:false"/></td></tr>
+
+
+
+<tr><td>评价:</td><td><textarea  class='easyui-textarea' type='text' name='stadiumComment' id='stadiumComment' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+<tr><td>开放时间:</td><td><input  class='easyui-textbox' type='text' name='opentime' id='opentime' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>纬度:</td><td><input  class='easyui-textbox' type='text' name='latitude' id='latitude' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>经度:</td><td><input  class='easyui-textbox' type='text' name='longitude' id='longitude' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>电话:</td><td><input  class='easyui-textbox' type='text' name='telephone' id='telephone' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>细节:</td><td><input  class='easyui-textbox' type='text' name='detail' id='detail' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否停车:</td><td><input  class='easyui-textbox' type='text' name='canPark' id='canPark' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>是否有卖品部:</td><td><input  class='easyui-textbox' type='text' name='canSell' id='canSell' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否吃饭:</td><td><input  class='easyui-textbox' type='text' name='canRest' id='canRest' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否出租:</td><td><input  class='easyui-textbox' type='text' name='canRent' id='canRent' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>是否可使用信用卡:</td><td><input  class='easyui-textbox' type='text' name='canCard' id='canCard' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否洗浴:</td><td><input  class='easyui-textbox' type='text' name='canBath' id='canBath' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否长定:</td><td><input  class='easyui-textbox' type='text' name='canLongBuy' id='canLongBuy' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>球类类型:</td><td><input  class='easyui-textbox' type='text' name='ballType' id='ballType' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>场馆类型:</td><td><input  class='easyui-textbox' type='text' name='stadiumType' id='stadiumType' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>城市序号:</td><td><input  class='easyui-textbox' type='text' name='cityId' id='cityId' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>活跃:</td><td><input class='easyui-radio' type='radio' name='active' id='active' value='true' checked='true'/>True<input type='radio' class='easyui-radio' name='active' id='active' value='false'/>False</td></tr>
+</table>
+</form>
+<div style="text-align:center;padding:5px">
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateStadium()">编辑</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#ffedit').form('clear');">清除</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#wupdateStadium').window('close')">取消</a>
+</div>
+</div>
+<div class="easyui-window" title="查看场馆" id="wviewStadium" data-options="iconCls:'icon-save',modal:true,closed:true" style="width:800px;height:600px">
+<div style="padding:10px 60px 20px 60px">
+<form id="ffview" method="post">
+<input  type='hidden' name='stadiumId' id='stadiumId' value=''/>
+<table cellpadding="5">
+<tr><td>场馆名称:</td><td><input  class='easyui-textbox' type='text' name='stadiumName' id='stadiumName' value='' data-options="required:false"/></td></tr>
+
+
+
+<tr><td>评价:</td><td><textarea  class='easyui-textarea' type='text' name='stadiumComment' id='stadiumComment' data-options="required:false" cols='20' rows='4'></textarea></td></tr>
+
+<tr><td>开放时间:</td><td><input  class='easyui-textbox' type='text' name='opentime' id='opentime' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>纬度:</td><td><input  class='easyui-textbox' type='text' name='latitude' id='latitude' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>经度:</td><td><input  class='easyui-textbox' type='text' name='longitude' id='longitude' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>电话:</td><td><input  class='easyui-textbox' type='text' name='telephone' id='telephone' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>细节:</td><td><input  class='easyui-textbox' type='text' name='detail' id='detail' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否停车:</td><td><input  class='easyui-textbox' type='text' name='canPark' id='canPark' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>是否有卖品部:</td><td><input  class='easyui-textbox' type='text' name='canSell' id='canSell' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否吃饭:</td><td><input  class='easyui-textbox' type='text' name='canRest' id='canRest' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否出租:</td><td><input  class='easyui-textbox' type='text' name='canRent' id='canRent' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>是否可使用信用卡:</td><td><input  class='easyui-textbox' type='text' name='canCard' id='canCard' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否洗浴:</td><td><input  class='easyui-textbox' type='text' name='canBath' id='canBath' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>能否长定:</td><td><input  class='easyui-textbox' type='text' name='canLongBuy' id='canLongBuy' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>球类类型:</td><td><input  class='easyui-textbox' type='text' name='ballType' id='ballType' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>场馆类型:</td><td><input  class='easyui-textbox' type='text' name='stadiumType' id='stadiumType' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>城市序号:</td><td><input  class='easyui-textbox' type='text' name='cityId' id='cityId' value='' data-options="required:false"/></td></tr>
+
+
+<tr><td>活跃:</td><td><input class='easyui-radio' type='radio' name='active' id='active' value='true' checked='true'/>True<input type='radio' class='easyui-radio' name='active' id='active' value='false'/>False</td></tr>
+</table>
+</form>
+<div style="text-align:center;padding:5px">
+<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#wviewStadium').window('close')">关闭</a>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+var params = {};
+var pagesize = 10;
+var pagenum = 1;
+var toolbar = [
+{
+	text:'查看',
+	iconCls:'icon-search',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		$("#ffview").find("#stadiumId").val(rows[0]["stadiumId"]);
+		$("#ffview").find("#stadiumName").textbox("setValue",rows[0]["stadiumName"]);
+		$("#ffview").find("#stadiumComment").val(rows[0]["stadiumComment"]);
+		$("#ffview").find("#opentime").textbox("setValue",rows[0]["opentime"]);
+		$("#ffview").find("#latitude").textbox("setValue",rows[0]["latitude"]);
+		$("#ffview").find("#longitude").textbox("setValue",rows[0]["longitude"]);
+		$("#ffview").find("#telephone").textbox("setValue",rows[0]["telephone"]);
+		$("#ffview").find("#detail").textbox("setValue",rows[0]["detail"]);
+		$("#ffview").find("#canPark").textbox("setValue",rows[0]["canPark"]);
+		$("#ffview").find("#canSell").textbox("setValue",rows[0]["canSell"]);
+		$("#ffview").find("#canRest").textbox("setValue",rows[0]["canRest"]);
+		$("#ffview").find("#canRent").textbox("setValue",rows[0]["canRent"]);
+		$("#ffview").find("#canCard").textbox("setValue",rows[0]["canCard"]);
+		$("#ffview").find("#canBath").textbox("setValue",rows[0]["canBath"]);
+		$("#ffview").find("#canLongBuy").textbox("setValue",rows[0]["canLongBuy"]);
+		$("#ffview").find("#ballType").textbox("setValue",rows[0]["ballType"]);
+		$("#ffview").find("#stadiumType").textbox("setValue",rows[0]["stadiumType"]);
+		$("#ffview").find("#cityId").textbox("setValue",rows[0]["cityId"]);
+		var checkboxs = $("#ffview").find("input[name='active']");
+		for (var i=0;i<checkboxs.length;i++){
+			if (checkboxs.get(i).value == ""+rows[0]["active"]) checkboxs.get(i).checked=true;
+		}
+		$('#wviewStadium').window('open');
+	}
+}
+,
+{
+	text:'新增',
+	iconCls:'icon-add',
+	handler:function(){
+		$('#waddStadium').window('open');
+	}
+}
+,
+{
+	text:'编辑',
+	iconCls:'icon-edit',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		$("#ffedit").find("#stadiumId").val(rows[0]["stadiumId"]);
+		$("#ffedit").find("#stadiumName").textbox("setValue",rows[0]["stadiumName"]);
+		$("#ffedit").find("#stadiumComment").val(rows[0]["stadiumComment"]);
+		$("#ffedit").find("#opentime").textbox("setValue",rows[0]["opentime"]);
+		$("#ffedit").find("#latitude").textbox("setValue",rows[0]["latitude"]);
+		$("#ffedit").find("#longitude").textbox("setValue",rows[0]["longitude"]);
+		$("#ffedit").find("#telephone").textbox("setValue",rows[0]["telephone"]);
+		$("#ffedit").find("#detail").textbox("setValue",rows[0]["detail"]);
+		$("#ffedit").find("#canPark").textbox("setValue",rows[0]["canPark"]);
+		$("#ffedit").find("#canSell").textbox("setValue",rows[0]["canSell"]);
+		$("#ffedit").find("#canRest").textbox("setValue",rows[0]["canRest"]);
+		$("#ffedit").find("#canRent").textbox("setValue",rows[0]["canRent"]);
+		$("#ffedit").find("#canCard").textbox("setValue",rows[0]["canCard"]);
+		$("#ffedit").find("#canBath").textbox("setValue",rows[0]["canBath"]);
+		$("#ffedit").find("#canLongBuy").textbox("setValue",rows[0]["canLongBuy"]);
+		$("#ffedit").find("#ballType").textbox("setValue",rows[0]["ballType"]);
+		$("#ffedit").find("#stadiumType").textbox("setValue",rows[0]["stadiumType"]);
+		$("#ffedit").find("#cityId").textbox("setValue",rows[0]["cityId"]);
+		var checkboxs = $("#ffedit").find("input[name='active']");
+		for (var i=0;i<checkboxs.length;i++){
+			if (checkboxs.get(i).value == ""+rows[0]["active"]) checkboxs.get(i).checked=true;
+		}
+		$('#wupdateStadium').window('open');
+	}
+}
+,
+{
+	text:'软删除',
+	iconCls:'icon-remove',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumId = rows[0]["stadiumId"];
+		softDeleteStadium(stadiumId);
+	}
+}
+,
+{
+	text:'激活',
+	iconCls:'icon-tip',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumId = rows[0]["stadiumId"];
+		activateStadium(stadiumId);
+	}
+}
+,
+{
+	text:'克隆',
+	iconCls:'icon-add',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumId = rows[0]["stadiumId"];
+		cloneStadium(stadiumId);
+	}
+}
+,
+{
+	text:'删除',
+	iconCls:'icon-remove',
+	handler:function(){
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if ($.messager.confirm("警告","确认要删除选定记录吗？", function(data){
+			if (data){
+				if (rows.length > 1) {
+					$.messager.alert("警告","请选定一条记录！","warning");
+					return;
+				}
+				var stadiumId = rows[0]["stadiumId"];
+				deleteStadium(stadiumId);
+			}
+		}));
+}
+}
+,
+{
+	text:'切换',
+	iconCls:'icon-cut',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumId = rows[0]["stadiumId"];
+		toggleStadium(stadiumId);
+	}
+}
+,
+{
+	text:'留一切换',
+	iconCls:'icon-cut',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		if (rows.length > 1) {
+			$.messager.alert("警告","请选定一条记录！","warning");
+			return;
+		}
+		var stadiumId = rows[0]["stadiumId"];
+		toggleOneStadium(stadiumId);
+	}
+}
+,'-',
+{
+	text:'批软删除',
+	iconCls:'icon-remove',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		var ids = "";
+		for(var i=0;i<rows.length;i++){
+			ids += rows[i]["stadiumId"];
+			if (i < rows.length-1) ids += ",";
+		}
+		softDeleteAllStadiums(ids);
+	}
+}
+,
+{
+	text:'批激活',
+	iconCls:'icon-tip',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		var ids = "";
+		for(var i=0;i<rows.length;i++){
+			ids += rows[i]["stadiumId"];
+			if (i < rows.length-1) ids += ",";
+		}
+		activateAllStadiums(ids);
+	}
+}
+,
+{
+	text:'批克隆',
+	iconCls:'icon-add',
+	handler:function(){ 
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		var ids = "";
+		for(var i=0;i<rows.length;i++){
+			ids += rows[i]["stadiumId"];
+			if (i < rows.length-1) ids += ",";
+		}
+		cloneAllStadiums(ids);
+	}
+}
+,
+{
+	text:'批删除',
+	iconCls:'icon-remove',
+	handler:function(){
+		var rows = $("#dg").datagrid("getChecked");
+		if (rows == undefined || rows == null || rows.length == 0 ){
+			$.messager.alert("警告","请选定记录！","warning");
+			return;
+		}
+		if ($.messager.confirm("警告","确认要删除选定记录吗？",function(data){
+			if (data){
+				var ids = "";
+				for(var i=0;i<rows.length;i++){
+					ids += rows[i]["stadiumId"];
+					if (i < rows.length-1) ids += ",";
+				}
+				deleteAllStadiums(ids);
+			}
+		}));
+	}
+}
+,
+{
+	text:'Excel导出',
+	iconCls:'icon-sum',
+	handler:function(){
+		window.location.href="../stadiumController/exportStadiums";
+	}
+}
+,
+{
+	text:'PDF导出',
+	iconCls:'icon-print',
+	handler:function(){
+		window.location.href="../stadiumController/exportStadiumsPDF";
+	}
+}
+,
+{
+	text:'Word导出',
+	iconCls:'icon-save',
+	handler:function(){
+		window.location.href="../stadiumController/exportStadiumsWord";
+	}
+}
+,
+{
+	text:'PPT导出',
+	iconCls:'icon-tip',
+	handler:function(){
+		window.location.href="../stadiumController/exportPPTStadiums";
+	}
+}
+];
+$(document).ready(function(){
+$("#dg").datagrid("load");
+});
+function clearForm(formId){
+$('#'+formId).form('clear');
+}
+function addStadium(){
+	if ($("#ff").form("validate")) {
+		$.ajax({
+			type: "post",
+			url: "../stadiumController/addStadium",
+			data: JSON.stringify({
+				stadiumName:$("#ff").find("#stadiumName").val(),
+				active:parseBoolean($("#ff").find("input[name='active']:checked").val()),
+				stadiumComment:$("#ff").find("#stadiumComment").val(),
+				opentime:$("#ff").find("#opentime").val(),
+				latitude:$("#ff").find("#latitude").val(),
+				longitude:$("#ff").find("#longitude").val(),
+				telephone:$("#ff").find("#telephone").val(),
+				detail:$("#ff").find("#detail").val(),
+				canPark:$("#ff").find("#canPark").val(),
+				canSell:$("#ff").find("#canSell").val(),
+				canRest:$("#ff").find("#canRest").val(),
+				canRent:$("#ff").find("#canRent").val(),
+				canCard:$("#ff").find("#canCard").val(),
+				canBath:$("#ff").find("#canBath").val(),
+				canLongBuy:$("#ff").find("#canLongBuy").val(),
+				ballType:$("#ff").find("#ballType").val(),
+				stadiumType:$("#ff").find("#stadiumType").val(),
+				cityId:$("#ff").find("#cityId").val(),
+			}),
+			dataType: 'json',
+			contentType:"application/json;charset=UTF-8",
+			success: function(data, textStatus) {
+				if (data.success) {
+					window.location.reload();
+				}
+				},
+			complete : function(XMLHttpRequest, textStatus) {
+			},
+			error : function(XMLHttpRequest,textStatus,errorThrown) {
+				alert("Error:"+textStatus);
+				alert(errorThrown.toString());
+			}
+		});
+	}
+}
+
+function updateStadium(){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/updateStadium",
+		data: JSON.stringify({
+			stadiumId:$("#ffedit").find("#stadiumId").val(),
+			stadiumName:$("#ffedit").find("#stadiumName").val(),
+			active:parseBoolean($("#ffedit").find("input[name='active']:checked").val()),
+			stadiumComment:$("#ffedit").find("#stadiumComment").val(),
+			opentime:$("#ffedit").find("#opentime").val(),
+			latitude:$("#ffedit").find("#latitude").val(),
+			longitude:$("#ffedit").find("#longitude").val(),
+			telephone:$("#ffedit").find("#telephone").val(),
+			detail:$("#ffedit").find("#detail").val(),
+			canPark:$("#ffedit").find("#canPark").val(),
+			canSell:$("#ffedit").find("#canSell").val(),
+			canRest:$("#ffedit").find("#canRest").val(),
+			canRent:$("#ffedit").find("#canRent").val(),
+			canCard:$("#ffedit").find("#canCard").val(),
+			canBath:$("#ffedit").find("#canBath").val(),
+			canLongBuy:$("#ffedit").find("#canLongBuy").val(),
+			ballType:$("#ffedit").find("#ballType").val(),
+			stadiumType:$("#ffedit").find("#stadiumType").val(),
+			cityId:$("#ffedit").find("#cityId").val(),
+		}),
+		dataType: 'json',
+		contentType:"application/json;charset=UTF-8",
+		success: function(data, textStatus) {
+			if (data.success){
+				$("#wupdateStadium").window('close');
+				$("#dg").datagrid("load");
+			}
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	}); 
+}
+
+function softDeleteStadium(stadiumId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/softDeleteStadium",
+		data: {
+			"stadiumId":stadiumId	
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function activateStadium(stadiumId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/activateStadium",
+		data: {
+			"stadiumId":stadiumId
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function cloneStadium(stadiumId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/cloneStadium",
+		data: {
+			"stadiumId":stadiumId	
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function deleteStadium(stadiumId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/deleteStadium",
+		dataType: 'json',
+		data:{"stadiumId":stadiumId},
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	}); 
+}
+
+function toggleStadium(stadiumId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/toggleStadium",
+		data: {
+			"stadiumId":stadiumId
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function toggleOneStadium(stadiumId){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/toggleOneStadium",
+		data: {
+			"stadiumId":stadiumId
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function softDeleteAllStadiums(ids){
+	$.ajax({
+		type: "post",
+			url: "../stadiumController/softDeleteAllStadiums",
+			data: {
+				ids:ids
+			},
+			dataType: 'json',
+			success: function(data, textStatus) {
+				$("#dg").datagrid("load");
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function activateAllStadiums(ids){
+	$.ajax({
+		type: "post",
+			url: "../stadiumController/activateAllStadiums",
+			data: {
+				ids:ids
+			},
+			dataType: 'json',
+			success: function(data, textStatus) {
+				$("#dg").datagrid("load");
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function cloneAllStadiums(ids){
+	$.ajax({
+		type: "post",
+			url: "../stadiumController/cloneAllStadiums",
+			data: {
+				ids:ids
+			},
+			dataType: 'json',
+			success: function(data, textStatus) {
+				$("#dg").datagrid("load");
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function deleteAllStadiums(ids){
+	$.ajax({
+		type: "post",
+		url: "../stadiumController/deleteAllStadiums",
+		data: {
+			ids:ids
+		},
+		dataType: 'json',
+		success: function(data, textStatus) {
+			$("#dg").datagrid("load");
+		},
+		complete : function(XMLHttpRequest, textStatus) {
+		},
+		error : function(XMLHttpRequest,textStatus,errorThrown) {
+			alert("Error:"+textStatus);
+			alert(errorThrown.toString());
+		}
+	});
+}
+
+function searchStadiumsByFieldsByPage(){
+	params = {
+		stadiumName:$("#ffsearch").find("#stadiumName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumComment:$("#ffsearch").find("#stadiumComment").val(),
+		opentime:$("#ffsearch").find("#opentime").val(),
+		latitude:$("#ffsearch").find("#latitude").val(),
+		longitude:$("#ffsearch").find("#longitude").val(),
+		telephone:$("#ffsearch").find("#telephone").val(),
+		detail:$("#ffsearch").find("#detail").val(),
+		canPark:$("#ffsearch").find("#canPark").val(),
+		canSell:$("#ffsearch").find("#canSell").val(),
+		canRest:$("#ffsearch").find("#canRest").val(),
+		canRent:$("#ffsearch").find("#canRent").val(),
+		canCard:$("#ffsearch").find("#canCard").val(),
+		canBath:$("#ffsearch").find("#canBath").val(),
+		canLongBuy:$("#ffsearch").find("#canLongBuy").val(),
+		ballType:$("#ffsearch").find("#ballType").val(),
+		stadiumType:$("#ffsearch").find("#stadiumType").val(),
+		cityId:$("#ffsearch").find("#cityId").val(),
+	};
+	$("#dg").datagrid({queryParams:params});
+}
+
+function filterStadiumsExcel(){
+	params = {
+		stadiumName:$("#ffsearch").find("#stadiumName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumComment:$("#ffsearch").find("#stadiumComment").val(),
+		opentime:$("#ffsearch").find("#opentime").val(),
+		latitude:$("#ffsearch").find("#latitude").val(),
+		longitude:$("#ffsearch").find("#longitude").val(),
+		telephone:$("#ffsearch").find("#telephone").val(),
+		detail:$("#ffsearch").find("#detail").val(),
+		canPark:$("#ffsearch").find("#canPark").val(),
+		canSell:$("#ffsearch").find("#canSell").val(),
+		canRest:$("#ffsearch").find("#canRest").val(),
+		canRent:$("#ffsearch").find("#canRent").val(),
+		canCard:$("#ffsearch").find("#canCard").val(),
+		canBath:$("#ffsearch").find("#canBath").val(),
+		canLongBuy:$("#ffsearch").find("#canLongBuy").val(),
+		ballType:$("#ffsearch").find("#ballType").val(),
+		stadiumType:$("#ffsearch").find("#stadiumType").val(),
+		cityId:$("#ffsearch").find("#cityId").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumController/filterStadiumsExcel?" + params0;
+}
+
+function filterStadiumsPDF(){
+	params = {
+		stadiumName:$("#ffsearch").find("#stadiumName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumComment:$("#ffsearch").find("#stadiumComment").val(),
+		opentime:$("#ffsearch").find("#opentime").val(),
+		latitude:$("#ffsearch").find("#latitude").val(),
+		longitude:$("#ffsearch").find("#longitude").val(),
+		telephone:$("#ffsearch").find("#telephone").val(),
+		detail:$("#ffsearch").find("#detail").val(),
+		canPark:$("#ffsearch").find("#canPark").val(),
+		canSell:$("#ffsearch").find("#canSell").val(),
+		canRest:$("#ffsearch").find("#canRest").val(),
+		canRent:$("#ffsearch").find("#canRent").val(),
+		canCard:$("#ffsearch").find("#canCard").val(),
+		canBath:$("#ffsearch").find("#canBath").val(),
+		canLongBuy:$("#ffsearch").find("#canLongBuy").val(),
+		ballType:$("#ffsearch").find("#ballType").val(),
+		stadiumType:$("#ffsearch").find("#stadiumType").val(),
+		cityId:$("#ffsearch").find("#cityId").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumController/filterStadiumsPDF?" + params0;
+}
+
+function filterStadiumsWord(){
+	params = {
+		stadiumName:$("#ffsearch").find("#stadiumName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumComment:$("#ffsearch").find("#stadiumComment").val(),
+		opentime:$("#ffsearch").find("#opentime").val(),
+		latitude:$("#ffsearch").find("#latitude").val(),
+		longitude:$("#ffsearch").find("#longitude").val(),
+		telephone:$("#ffsearch").find("#telephone").val(),
+		detail:$("#ffsearch").find("#detail").val(),
+		canPark:$("#ffsearch").find("#canPark").val(),
+		canSell:$("#ffsearch").find("#canSell").val(),
+		canRest:$("#ffsearch").find("#canRest").val(),
+		canRent:$("#ffsearch").find("#canRent").val(),
+		canCard:$("#ffsearch").find("#canCard").val(),
+		canBath:$("#ffsearch").find("#canBath").val(),
+		canLongBuy:$("#ffsearch").find("#canLongBuy").val(),
+		ballType:$("#ffsearch").find("#ballType").val(),
+		stadiumType:$("#ffsearch").find("#stadiumType").val(),
+		cityId:$("#ffsearch").find("#cityId").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumController/filterStadiumsWord?" + params0;
+}
+
+function filterPPTStadiums(){
+	params = {
+		stadiumName:$("#ffsearch").find("#stadiumName").val(),
+		active:parseBoolean($("#ffsearch").find("#active").val()),
+		stadiumComment:$("#ffsearch").find("#stadiumComment").val(),
+		opentime:$("#ffsearch").find("#opentime").val(),
+		latitude:$("#ffsearch").find("#latitude").val(),
+		longitude:$("#ffsearch").find("#longitude").val(),
+		telephone:$("#ffsearch").find("#telephone").val(),
+		detail:$("#ffsearch").find("#detail").val(),
+		canPark:$("#ffsearch").find("#canPark").val(),
+		canSell:$("#ffsearch").find("#canSell").val(),
+		canRest:$("#ffsearch").find("#canRest").val(),
+		canRent:$("#ffsearch").find("#canRent").val(),
+		canCard:$("#ffsearch").find("#canCard").val(),
+		canBath:$("#ffsearch").find("#canBath").val(),
+		canLongBuy:$("#ffsearch").find("#canLongBuy").val(),
+		ballType:$("#ffsearch").find("#ballType").val(),
+		stadiumType:$("#ffsearch").find("#stadiumType").val(),
+		cityId:$("#ffsearch").find("#cityId").val(),
+	};
+	var params0 = $.param(params);
+	document.location.href = "../stadiumController/filterPPTStadiums?" + params0;
+}
+
+function parseBoolean(val){
+	if (val == undefined|| val == null) return false;
+	var isInt = /^(-}+)?\d+$/.test(val);
+	if (isInt&& val == "0") return false;
+	else if (isInt&& val == "1") return true;
+	else if (val.toLowerCase() == "false") return false;
+	else if (val.toLowerCase() == "true") return true;
+	else if (val.toLowerCase() == "f") return false;
+	else if (val.toLowerCase() == "t") return true;
+	else if (val.toLowerCase() == "n") return false;
+	else if (val.toLowerCase() == "y") return true;
+	else if (val.toLowerCase() == "no") return false;
+	else if (val.toLowerCase() == "yes") return true;
+	else return "";
+}
+
+function parseBooleanInt(val){
+	var b = parseBoolean(val);
+	if (b==undefined||b==null) return 0;
+	else if (b==true) return 1;
+	else return 0;
+}
+
+function isBlank(val){
+	if (val == undefined|| val == null || val == "" || val== "0" || val == 0) return true;
+	else return false;
+}
+
+function checkRadioBoxValue(control,field,fieldvalue){
+	var checkboxs = $("#"+control).find("input[name='"+field+"']");
+	for (var i=0;i<checkboxs.length;i++){
+		if (checkboxs.get(i).value == ""+fieldvalue) checkboxs.get(i).checked=true;
+	}
+}
+
+function toggleBtnShow(index){
+	$('#button-bar a').css('display','none');
+	$('#button-bar a:nth-child('+(index)+')').css('display','block');
+}
+
+</script>
+</html>

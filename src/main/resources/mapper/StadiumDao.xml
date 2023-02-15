@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.javaforever.myareas.dao.StadiumDao"> 
+	<resultMap id="stadium" type="org.javaforever.myareas.domain.Stadium">
+		<id column="stadium_id" property="stadiumId"/>
+		<result column="stadium_name" property="stadiumName"/>
+		<result column="active" property="active"/>
+		<result column="stadium_comment" property="stadiumComment"/>
+		<result column="opentime" property="opentime"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="telephone" property="telephone"/>
+		<result column="detail" property="detail"/>
+		<result column="can_park" property="canPark"/>
+		<result column="can_sell" property="canSell"/>
+		<result column="can_rest" property="canRest"/>
+		<result column="can_rent" property="canRent"/>
+		<result column="can_card" property="canCard"/>
+		<result column="can_bath" property="canBath"/>
+		<result column="can_long_buy" property="canLongBuy"/>
+		<result column="ball_type" property="ballType"/>
+		<result column="stadium_type" property="stadiumType"/>
+		<result column="city_id" property="cityId"/>
+	</resultMap>
+	
+	<update id="activateStadium" parameterType="Long">
+		update std_stadiums set active = true where stadium_id = #{value} 
+	</update>
+
+	<insert id="addStadium" parameterType="org.javaforever.myareas.domain.Stadium">
+		insert into std_stadiums ( stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id) values (#{stadiumName},#{active},#{stadiumComment},#{opentime},#{latitude},#{longitude},#{telephone},#{detail},#{canPark},#{canSell},#{canRest},#{canRent},#{canCard},#{canBath},#{canLongBuy},#{ballType},#{stadiumType},#{cityId})
+	</insert>
+
+	<select id="countActiveStadiumRecords" resultType="Integer">
+		select count(*) as countNum from std_stadiums where active = true;
+	</select>
+
+	<select id="countSearchStadiumsByFieldsRecords" parameterType="org.javaforever.myareas.domain.Stadium" resultType="int">
+		select count(*) countSum from std_stadiums
+		where 1=1 
+		<if test="stadiumName!=null and stadiumName!='' ">
+			and stadium_name LIKE CONCAT(CONCAT('%', #{stadiumName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="stadiumComment!=null">
+			and stadium_comment = #{stadiumComment}
+		</if>
+		<if test="opentime!=null and opentime!='' ">
+			and opentime LIKE CONCAT(CONCAT('%', #{opentime}),'%')
+		</if>
+		<if test="latitude!=null">
+			and latitude = #{latitude}
+		</if>
+		<if test="longitude!=null">
+			and longitude = #{longitude}
+		</if>
+		<if test="telephone!=null and telephone!='' ">
+			and telephone LIKE CONCAT(CONCAT('%', #{telephone}),'%')
+		</if>
+		<if test="detail!=null and detail!='' ">
+			and detail LIKE CONCAT(CONCAT('%', #{detail}),'%')
+		</if>
+		<if test="canPark!=null and canPark!='' ">
+			and can_park LIKE CONCAT(CONCAT('%', #{canPark}),'%')
+		</if>
+		<if test="canSell!=null and canSell!='' ">
+			and can_sell LIKE CONCAT(CONCAT('%', #{canSell}),'%')
+		</if>
+		<if test="canRest!=null and canRest!='' ">
+			and can_rest LIKE CONCAT(CONCAT('%', #{canRest}),'%')
+		</if>
+		<if test="canRent!=null and canRent!='' ">
+			and can_rent LIKE CONCAT(CONCAT('%', #{canRent}),'%')
+		</if>
+		<if test="canCard!=null and canCard!='' ">
+			and can_card LIKE CONCAT(CONCAT('%', #{canCard}),'%')
+		</if>
+		<if test="canBath!=null and canBath!='' ">
+			and can_bath LIKE CONCAT(CONCAT('%', #{canBath}),'%')
+		</if>
+		<if test="canLongBuy!=null and canLongBuy!='' ">
+			and can_long_buy LIKE CONCAT(CONCAT('%', #{canLongBuy}),'%')
+		</if>
+		<if test="ballType!=null">
+			and ball_type = #{ballType}
+		</if>
+		<if test="stadiumType!=null">
+			and stadium_type = #{stadiumType}
+		</if>
+		<if test="cityId!=null">
+			and city_id = #{cityId}
+		</if>
+	</select>
+
+	<delete id="deleteStadium" parameterType="Long">
+		delete from std_stadiums where stadium_id = #{stadiumId}
+	</delete>
+
+	<select id="findStadiumByStadiumId" parameterType="Long" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums where stadium_id = #{stadiumId}
+	</select>
+
+	<select id="findStadiumByStadiumName" parameterType="string" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums where stadium_name = #{stadiumName}
+	</select>
+
+	<select id="findStadiumFullInfoByStadiumId" parameterType="Long" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums where stadium_id = #{stadiumId}
+	</select>
+
+	<select id="listActiveStadiums" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums where active = true order by stadium_name asc
+	</select>
+
+	<select id="listAllStadiums" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums
+	</select>
+
+	<select id="searchStadiumIndexedNamesByShortName" resultMap="stadium" parameterType="string">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums where stadium_name like CONCAT(#{value},'%')
+	</select>
+
+	<select id="searchStadiumsByFields" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums
+		where 1=1 
+		<if test="stadiumName!=null and stadiumName!='' ">
+			and stadium_name LIKE CONCAT(CONCAT('%', #{stadiumName}),'%')
+		</if>
+		<if test="active!=null">
+			and active = #{active}
+		</if>
+		<if test="stadiumComment!=null">
+			and stadium_comment = #{stadiumComment}
+		</if>
+		<if test="opentime!=null and opentime!='' ">
+			and opentime LIKE CONCAT(CONCAT('%', #{opentime}),'%')
+		</if>
+		<if test="latitude!=null">
+			and latitude = #{latitude}
+		</if>
+		<if test="longitude!=null">
+			and longitude = #{longitude}
+		</if>
+		<if test="telephone!=null and telephone!='' ">
+			and telephone LIKE CONCAT(CONCAT('%', #{telephone}),'%')
+		</if>
+		<if test="detail!=null and detail!='' ">
+			and detail LIKE CONCAT(CONCAT('%', #{detail}),'%')
+		</if>
+		<if test="canPark!=null and canPark!='' ">
+			and can_park LIKE CONCAT(CONCAT('%', #{canPark}),'%')
+		</if>
+		<if test="canSell!=null and canSell!='' ">
+			and can_sell LIKE CONCAT(CONCAT('%', #{canSell}),'%')
+		</if>
+		<if test="canRest!=null and canRest!='' ">
+			and can_rest LIKE CONCAT(CONCAT('%', #{canRest}),'%')
+		</if>
+		<if test="canRent!=null and canRent!='' ">
+			and can_rent LIKE CONCAT(CONCAT('%', #{canRent}),'%')
+		</if>
+		<if test="canCard!=null and canCard!='' ">
+			and can_card LIKE CONCAT(CONCAT('%', #{canCard}),'%')
+		</if>
+		<if test="canBath!=null and canBath!='' ">
+			and can_bath LIKE CONCAT(CONCAT('%', #{canBath}),'%')
+		</if>
+		<if test="canLongBuy!=null and canLongBuy!='' ">
+			and can_long_buy LIKE CONCAT(CONCAT('%', #{canLongBuy}),'%')
+		</if>
+		<if test="ballType!=null">
+			and ball_type = #{ballType}
+		</if>
+		<if test="stadiumType!=null">
+			and stadium_type = #{stadiumType}
+		</if>
+		<if test="cityId!=null">
+			and city_id = #{cityId}
+		</if>
+	</select>
+
+	<select id="searchStadiumsByFieldsByLimit" resultMap="stadium">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums
+		where 1=1 
+		<if test="stadium.stadiumName!=null and stadium.stadiumName!='' ">
+			and stadium_name LIKE CONCAT(CONCAT('%', #{stadium.stadiumName}),'%')
+		</if>
+		<if test="stadium.active!=null">
+			and active = #{stadium.active}
+		</if>
+		<if test="stadium.stadiumComment!=null">
+			and stadium_comment = #{stadium.stadiumComment}
+		</if>
+		<if test="stadium.opentime!=null and stadium.opentime!='' ">
+			and opentime LIKE CONCAT(CONCAT('%', #{stadium.opentime}),'%')
+		</if>
+		<if test="stadium.latitude!=null">
+			and latitude = #{stadium.latitude}
+		</if>
+		<if test="stadium.longitude!=null">
+			and longitude = #{stadium.longitude}
+		</if>
+		<if test="stadium.telephone!=null and stadium.telephone!='' ">
+			and telephone LIKE CONCAT(CONCAT('%', #{stadium.telephone}),'%')
+		</if>
+		<if test="stadium.detail!=null and stadium.detail!='' ">
+			and detail LIKE CONCAT(CONCAT('%', #{stadium.detail}),'%')
+		</if>
+		<if test="stadium.canPark!=null and stadium.canPark!='' ">
+			and can_park LIKE CONCAT(CONCAT('%', #{stadium.canPark}),'%')
+		</if>
+		<if test="stadium.canSell!=null and stadium.canSell!='' ">
+			and can_sell LIKE CONCAT(CONCAT('%', #{stadium.canSell}),'%')
+		</if>
+		<if test="stadium.canRest!=null and stadium.canRest!='' ">
+			and can_rest LIKE CONCAT(CONCAT('%', #{stadium.canRest}),'%')
+		</if>
+		<if test="stadium.canRent!=null and stadium.canRent!='' ">
+			and can_rent LIKE CONCAT(CONCAT('%', #{stadium.canRent}),'%')
+		</if>
+		<if test="stadium.canCard!=null and stadium.canCard!='' ">
+			and can_card LIKE CONCAT(CONCAT('%', #{stadium.canCard}),'%')
+		</if>
+		<if test="stadium.canBath!=null and stadium.canBath!='' ">
+			and can_bath LIKE CONCAT(CONCAT('%', #{stadium.canBath}),'%')
+		</if>
+		<if test="stadium.canLongBuy!=null and stadium.canLongBuy!='' ">
+			and can_long_buy LIKE CONCAT(CONCAT('%', #{stadium.canLongBuy}),'%')
+		</if>
+		<if test="stadium.ballType!=null">
+			and ball_type = #{stadium.ballType}
+		</if>
+		<if test="stadium.stadiumType!=null">
+			and stadium_type = #{stadium.stadiumType}
+		</if>
+		<if test="stadium.cityId!=null">
+			and city_id = #{stadium.cityId}
+		</if>
+		limit #{limit} offset #{start}
+	</select>
+
+	<select id="searchStadiumsByStadiumName" resultMap="stadium" parameterType="string">
+		select stadium_id,stadium_name,active,stadium_comment,opentime,latitude,longitude,telephone,detail,can_park,can_sell,can_rest,can_rent,can_card,can_bath,can_long_buy,ball_type,stadium_type,city_id from std_stadiums where stadium_name like CONCAT(CONCAT('%',#{value}),'%')
+	</select>
+
+	<update id="softDeleteStadium" parameterType="Long">
+		update std_stadiums set active = false where stadium_id = #{value} 
+	</update>
+
+	<update id="toggleStadium" parameterType="Long">
+		update std_stadiums set active = not active where stadium_id = #{value} 
+	</update>
+
+	<select id="updateStadium" parameterType="org.javaforever.myareas.domain.Stadium">
+		update std_stadiums set stadium_name = #{stadiumName} ,active = #{active} ,stadium_comment = #{stadiumComment} ,opentime = #{opentime} ,latitude = #{latitude} ,longitude = #{longitude} ,telephone = #{telephone} ,detail = #{detail} ,can_park = #{canPark} ,can_sell = #{canSell} ,can_rest = #{canRest} ,can_rent = #{canRent} ,can_card = #{canCard} ,can_bath = #{canBath} ,can_long_buy = #{canLongBuy} ,ball_type = #{ballType} ,stadium_type = #{stadiumType} ,city_id = #{cityId} where stadium_id = #{stadiumId}
+	</select>
+
+</mapper>
